@@ -21,6 +21,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Matrix.makeMatrix();
         Stage stage=new Stage();
         stage.setScene(FirstScene.firstScene(stage));
         stage.show();

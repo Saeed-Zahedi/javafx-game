@@ -4,6 +4,10 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -30,7 +34,7 @@ public class GameLoop {
     }
     public static Scene gameLoop(Player player,int level,Speed speed) throws FileNotFoundException {
         Pane pane=new BorderPane();
-        Circle circle=new Circle(200,120,10,Color.RED);
+       // Circle circle=new Circle(200,120,10,Color.RED);
         FileInputStream fileInputStream=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\MainScene.png");
         Image image=new Image(fileInputStream);
         ImageView imageView=new ImageView(image);
@@ -70,10 +74,13 @@ public class GameLoop {
         text.setStrokeWidth(2);
         pane.getChildren().add(imageView);
         pane.getChildren().add(text);
-        pane.getChildren().add(circle);
+       // pane.getChildren().add(circle);
         Scene scene=new Scene(pane,400,400);
         boolean flag=true;
-        Move move=new Move(circle);
+        ArrayList<Move>move=new ArrayList<>();
+        for(int i=0;i<50;i++){
+            move.add(new Move(pane));
+        }
         Thread mainThread=new Thread(()->{
             try {
                 Thread.sleep(2000);
@@ -81,14 +88,20 @@ public class GameLoop {
             catch (InterruptedException e){
 
             }
-            for (int i = 0; i < 23; i++) {
-                try{
-                    Thread.sleep(GameLoop.speedType(speed));
-                }
-                catch (InterruptedException e){
+            for (int j = 0; j < 50; j++) {
+                for (int i = 0; i < 23; i++) {
+                    System.out.println(move.get(0).getImageView().getLayoutY());
+                    try {
+                        Thread.sleep(GameLoop.speedType(speed));
+                    } catch (InterruptedException t) {
+
+                    }
+
+                    Platform.runLater(move.get(0));
 
                 }
-                Platform.runLater(move);
+                System.out.println(move.get(0).getImageView().getLayoutY());
+                move.remove(0);
             }
 
         });
@@ -114,8 +127,70 @@ public class GameLoop {
                 }
             }
         });
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, t->{
+            if(t.getCode()==KeyCode.RIGHT){
+                if(checktheplaceForRight(move.get(0).getImageView(),move.get(0).color)){
+              move.get(0).getImageView().setLayoutX(move.get(0).getImageView().getLayoutX()+10);
+                    System.out.println(move.get(0).getImageView().getLayoutX());
+
+                }
+            }
+            if(t.getCode()==KeyCode.LEFT){
+                if(checkforLeft(move.get(0).getImageView(),move.get(0).color)){
+                move.get(0).getImageView().setLayoutX(move.get(0).getImageView().getLayoutX()-10);
+                    System.out.println(move.get(0).getImageView().getLayoutX());
+                }
+            }
+            if(t.getCode()==KeyCode.DOWN){
+                if(CheckforDown(move.get(0).getImageView(),move.get(0).color)){
+                move.get(0).getImageView().setLayoutY(move.get(0).getImageView().getLayoutY()+2);
+                }
+            }
+        });
         mainThread.start();
-        virusThread.start();
+        //virusThread.start();
         return scene;
+    }
+        public static boolean checktheplaceForRight(ImageView imageView,int color){
+        boolean re=true;
+        int x=(int)(imageView.getLayoutX()/10)-14;
+        int y=(int)(imageView.getLayoutY()-120)/10;
+        if(Matrix.matrix[y][x+2]!=0){
+            re=false;
+       }
+        else {
+            Matrix.matrix[y][x]=0;
+            Matrix.matrix[y][x+2]=color;
+        }
+        return re;
+    }
+    public static boolean CheckforDown(ImageView imageView,int color){
+        boolean re=true;
+        int x=(int)(imageView.getLayoutX()/10)-14;
+        int y=(int)(imageView.getLayoutY()-120)/10;
+        if(Matrix.matrix[y+1][x]!=0&&Matrix.matrix[y+1][x+1]!=0){
+            re=false;
+        }
+        else {
+            Matrix.matrix[y][x]=0;
+            Matrix.matrix[y][x+1]=0;
+            Matrix.matrix[y+1][x]=color;
+            Matrix.matrix[y+1][x+1]=color;
+        }
+        return re;
+    }
+    public static boolean checkforLeft(ImageView imageView,int color){
+        boolean re=true;
+        int x=(int)(imageView.getLayoutX()/10)-14;
+        int y=(int)(imageView.getLayoutY()-120)/10;
+
+        if(Matrix.matrix[y][x-1]!=0){
+            re=false;
+        }
+        else {
+            Matrix.matrix[y][x+1]=0;
+            Matrix.matrix[y][x-1]=color;
+        }
+        return re;
     }
 }
