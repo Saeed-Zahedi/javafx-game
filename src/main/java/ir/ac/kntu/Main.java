@@ -21,6 +21,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        AllCapsuleImages.fillThePicturesOfCapsules();
+        AllCapsules.makeCapsule(100);
+        System.out.println(AllCapsules.capsules.size());
         Matrix.makeMatrix();
         Stage stage=new Stage();
         stage.setScene(FirstScene.firstScene(stage));

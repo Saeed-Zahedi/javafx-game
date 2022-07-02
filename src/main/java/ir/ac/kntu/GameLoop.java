@@ -35,7 +35,11 @@ public class GameLoop {
     static int n=0;
     static boolean re=false;
     public static Scene gameLoop(Player player,int level,Speed speed) throws FileNotFoundException {
-        Pane pane=new BorderPane();
+        Pane pane=new Pane();
+        /*for (int i=0;i<AllCapsules.capsules.size();i++){
+            pane.getChildren().add(AllCapsules.capsules.get(i).imageViewLeft);
+            pane.getChildren().add(AllCapsules.capsules.get(i).imageViewRight);
+        }*/
        // Circle circle=new Circle(200,120,10,Color.RED);
         FileInputStream fileInputStream=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\MainScene.png");
         Image image=new Image(fileInputStream);
@@ -79,9 +83,9 @@ public class GameLoop {
        // pane.getChildren().add(circle);
         Scene scene=new Scene(pane,400,400);
         boolean flag=true;
-         ArrayList<Move>move=new ArrayList<>();
+        ArrayList<Move>move=new ArrayList<>();
         for(int i=0;i<50;i++){
-            move.add(new Move(move,pane));
+            move.add(new Move(pane,i));
         }
 
         Thread mainThread=new Thread(()->{
@@ -128,7 +132,7 @@ public class GameLoop {
                 }
             }
         });
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, t->{
+      /* scene.addEventHandler(KeyEvent.KEY_PRESSED, t->{
             if(t.getCode()==KeyCode.RIGHT){
                 if(checktheplaceForRight(move.get(n).getImageView(),move.get(n).color)){
                     move.get(n).getImageView().setLayoutX(move.get(n).getImageView().getLayoutX()+10);
@@ -147,7 +151,7 @@ public class GameLoop {
                     move.get(n).getImageView().setLayoutY(move.get(n).getImageView().getLayoutY()+2);
                 }
             }
-        });
+        });*/
         mainThread.start();
         //virusThread.start();
         return scene;
@@ -194,7 +198,7 @@ public class GameLoop {
         }
         return re;
     }
-    public static ArrayList<Move> upDateForMatrix(ArrayList<Move>moves,Pane pane){
+    /*public static ArrayList<Move> upDateForMatrix(ArrayList<Move>moves,Pane pane){
         ArrayList<Move>re=new ArrayList<>();
         for(int i=0;i<re.size();i++){
             re.remove(i);
@@ -280,6 +284,6 @@ public class GameLoop {
                 }
             }
         }
-        return re;
-    }
+      //  return re;
+    }*/
 }

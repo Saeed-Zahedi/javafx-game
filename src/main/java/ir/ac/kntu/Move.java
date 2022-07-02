@@ -8,40 +8,29 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Move implements Runnable{
-    ImageView imageView;
+    Capsule capsule;
+    ImageView leftImage;
+    ImageView rightImage;
     Pane pane;
-    int color;
-    ArrayList<Move>move=new ArrayList<>();
-    public Move(ArrayList<Move>move, Pane pane) throws FileNotFoundException {
-        int i=(int)(Math.random()*3);
-        color=i+2;
-        this.imageView = ChoseCapsule.getCapules(i);
+    public Move(Pane pane,int i) {
+        this.capsule=AllCapsules.capsules.get(i);
+        leftImage=capsule.imageViewLeft;
+        rightImage=capsule.imageViewRight;
         this.pane=pane;
-        pane.getChildren().add(imageView);
-        this.move=move;
-        imageView.setLayoutY(120);
-        imageView.setLayoutX(190);
+        pane.getChildren().add(leftImage);
+        System.out.println("1");
+        pane.getChildren().add(rightImage);
+        System.out.println("2");
+        capsule.imageViewRight.setLayoutY(110);
+        capsule.imageViewRight.setLayoutX(190);
+        capsule.imageViewLeft.setLayoutY(110);
+        capsule.imageViewLeft.setLayoutX(180);
     }
 
     @Override
     public void run() {
-        if(GameLoop.CheckforDown(imageView,color)){
-        imageView.setLayoutY(imageView.getLayoutY()+10);
-            if(GameLoop.CheckupDateForMatrix(move,pane)){
-                int Y=(int)(GameLoop.upDateForMatrix(move,pane).get(0).getImageView().getLayoutY()-120)/10;
-                int X=(int)(GameLoop.upDateForMatrix(move,pane).get(0).getImageView().getLayoutX()/10)-14;
-                pane.getChildren().remove(GameLoop.upDateForMatrix(move,pane).get(0).getImageView());
-                pane.getChildren().remove(GameLoop.upDateForMatrix(move,pane).get(1).getImageView());
-                for(int i=0;i<4;i++){
-                    Matrix.matrix[Y][X+i]=0;
-                }
-
-            }
-        Matrix.seeMatrix();
-        }
+        capsule.imageViewRight.setLayoutY(capsule.imageViewRight.getLayoutY()+10);
+        capsule.imageViewLeft.setLayoutY(capsule.imageViewLeft.getLayoutY()+10);
     }
 
-    public ImageView getImageView() {
-        return imageView;
-    }
 }
