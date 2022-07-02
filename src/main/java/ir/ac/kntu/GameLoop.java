@@ -32,6 +32,8 @@ public class GameLoop {
         }
         return n;
     }
+    static int n=0;
+    static boolean re=false;
     public static Scene gameLoop(Player player,int level,Speed speed) throws FileNotFoundException {
         Pane pane=new BorderPane();
        // Circle circle=new Circle(200,120,10,Color.RED);
@@ -77,10 +79,11 @@ public class GameLoop {
        // pane.getChildren().add(circle);
         Scene scene=new Scene(pane,400,400);
         boolean flag=true;
-        ArrayList<Move>move=new ArrayList<>();
+         ArrayList<Move>move=new ArrayList<>();
         for(int i=0;i<50;i++){
-            move.add(new Move(pane));
+            move.add(new Move(move,pane));
         }
+
         Thread mainThread=new Thread(()->{
             try {
                 Thread.sleep(2000);
@@ -89,19 +92,17 @@ public class GameLoop {
 
             }
             for (int j = 0; j < 50; j++) {
+                n=j;
                 for (int i = 0; i < 23; i++) {
-                    System.out.println(move.get(0).getImageView().getLayoutY());
+
                     try {
                         Thread.sleep(GameLoop.speedType(speed));
                     } catch (InterruptedException t) {
 
                     }
-
-                    Platform.runLater(move.get(0));
-
+                    Platform.runLater(move.get(j));
                 }
-                System.out.println(move.get(0).getImageView().getLayoutY());
-                move.remove(0);
+
             }
 
         });
@@ -129,21 +130,21 @@ public class GameLoop {
         });
         scene.addEventHandler(KeyEvent.KEY_PRESSED, t->{
             if(t.getCode()==KeyCode.RIGHT){
-                if(checktheplaceForRight(move.get(0).getImageView(),move.get(0).color)){
-              move.get(0).getImageView().setLayoutX(move.get(0).getImageView().getLayoutX()+10);
-                    System.out.println(move.get(0).getImageView().getLayoutX());
+                if(checktheplaceForRight(move.get(n).getImageView(),move.get(n).color)){
+                    move.get(n).getImageView().setLayoutX(move.get(n).getImageView().getLayoutX()+10);
+                    System.out.println(move.get(n).getImageView().getLayoutX());
 
                 }
             }
             if(t.getCode()==KeyCode.LEFT){
-                if(checkforLeft(move.get(0).getImageView(),move.get(0).color)){
-                move.get(0).getImageView().setLayoutX(move.get(0).getImageView().getLayoutX()-10);
-                    System.out.println(move.get(0).getImageView().getLayoutX());
+                if(checkforLeft(move.get(n).getImageView(),move.get(n).color)){
+                    move.get(n).getImageView().setLayoutX(move.get(n).getImageView().getLayoutX()-10);
+                    System.out.println(move.get(n).getImageView().getLayoutX());
                 }
             }
             if(t.getCode()==KeyCode.DOWN){
-                if(CheckforDown(move.get(0).getImageView(),move.get(0).color)){
-                move.get(0).getImageView().setLayoutY(move.get(0).getImageView().getLayoutY()+2);
+                if(CheckforDown(move.get(n).getImageView(),move.get(n).color)){
+                    move.get(n).getImageView().setLayoutY(move.get(n).getImageView().getLayoutY()+2);
                 }
             }
         });
@@ -190,6 +191,94 @@ public class GameLoop {
         else {
             Matrix.matrix[y][x+1]=0;
             Matrix.matrix[y][x-1]=color;
+        }
+        return re;
+    }
+    public static ArrayList<Move> upDateForMatrix(ArrayList<Move>moves,Pane pane){
+        ArrayList<Move>re=new ArrayList<>();
+        for(int i=0;i<re.size();i++){
+            re.remove(i);
+        }
+        for(int i=0;i<24;i++){
+            for (int j=1;j<=7;j++){
+                    int n=Matrix.matrix[i][j];
+                    if(Matrix.matrix[i][j+1]==n&&Matrix.matrix[i][j+2]==n&&Matrix.matrix[i][j+3]==n&&n!=0){
+                          //  for (int k = 0; k < 4; k++) {
+                             for(Move m:moves){
+                                 if((m.getImageView().getLayoutY()-120)/10==i){
+                                     if((m.getImageView().getLayoutX()/10)-14==j){
+                                         re.add(m);
+                                     }
+                                  }
+                                 }
+                        for(Move m1:moves){
+                            if((m1.getImageView().getLayoutY()-120)/10==i){
+                                if((m1.getImageView().getLayoutX()/10)-14==j+2){
+                                    System.out.println("happend2");
+                                    re.add(m1);
+
+                                }
+                            }
+                        }
+                           // }
+                    }
+            }
+        }
+        for (int i = 1; i < 11; i++) {
+            for(int j=0;j<22;j++){
+                int n=Matrix.matrix[j][i];
+                if(Matrix.matrix[j+1][i]==n&&Matrix.matrix[j+2][i]==n&&Matrix.matrix[j+3][i]==n&&n!=0) {
+                    for (int k = 0; k < 4; k++) {
+                     for(Move m:moves){
+                         if((m.getImageView().getLayoutX()/10)-14==i){
+                             if((m.getImageView().getLayoutY()-120)/10==j){
+                                 pane.getChildren().remove(m);
+                             }
+                         }
+                     }
+                    }
+                }
+            }
+        }
+        return re;
+    }
+    public static boolean CheckupDateForMatrix(ArrayList<Move>moves,Pane pane){
+        boolean re=false;
+        for(int i=0;i<24;i++){
+            for (int j=1;j<=7;j++){
+                int n=Matrix.matrix[i][j];
+                if(Matrix.matrix[i][j+1]==n&&Matrix.matrix[i][j+2]==n&&Matrix.matrix[i][j+3]==n&&n!=0){
+                    System.out.println("happend1");
+                    for (int k = 0; k < 4; k++) {
+                        for(Move m:moves){
+                            if((m.getImageView().getLayoutY()-120)/10==i){
+                                if((m.getImageView().getLayoutX()/10)-14==j){
+                                   // System.out.println("happend2");
+                                    // pane.getChildren().remove(m.getImageView());
+                                    re=true;
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 1; i < 11; i++) {
+            for(int j=0;j<22;j++){
+                int n=Matrix.matrix[j][i];
+                if(Matrix.matrix[j+1][i]==n&&Matrix.matrix[j+2][i]==n&&Matrix.matrix[j+3][i]==n&&n!=0) {
+                    for (int k = 0; k < 4; k++) {
+                        for(Move m:moves){
+                            if((m.getImageView().getLayoutX()/10)-14==i){
+                                if((m.getImageView().getLayoutY()-120)/10==j){
+                                    pane.getChildren().remove(m);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         return re;
     }
