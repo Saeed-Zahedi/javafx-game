@@ -11,11 +11,11 @@ public class Capsule {
     ImageView imageViewRight;
 
     public Capsule(int i) {
-        int n=(int)(Math.random()*100);
+        int n=i%3;
         imageViewLeft=AllCapsuleImages.imageViews.get(i);
-        int m=(int)(Math.random()*100);
+        int m=(i+1)%3;
         imageViewRight=AllCapsuleImages.imageViews.get(i+1);
-        switch (n){
+        switch (n%3){
             case 0:leftNumber=2;
             break;
             case 1:leftNumber=3;
@@ -36,5 +36,17 @@ public class Capsule {
         imageViewLeft.setFitHeight(10);
         imageViewLeft.setFitWidth(10);
         AllCapsules.capsules.add(this);
+    }
+    public void gotToLeft(){
+        imageViewLeft.setLayoutX(imageViewLeft.getLayoutX()-10);
+        imageViewRight.setLayoutX(imageViewRight.getLayoutX()-10);
+    }
+    public void gotToRight(){
+        imageViewLeft.setLayoutX(imageViewLeft.getLayoutX()+10);
+        imageViewRight.setLayoutX(imageViewRight.getLayoutX()+10);
+    }
+    public void getDown(){
+        imageViewLeft.setLayoutY(imageViewLeft.getLayoutY()+10);
+        imageViewRight.setLayoutY(imageViewRight.getLayoutY()+10);
     }
 }

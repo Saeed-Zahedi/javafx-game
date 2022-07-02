@@ -132,69 +132,70 @@ public class GameLoop {
                 }
             }
         });
-      /* scene.addEventHandler(KeyEvent.KEY_PRESSED, t->{
+       scene.addEventHandler(KeyEvent.KEY_PRESSED, t->{
             if(t.getCode()==KeyCode.RIGHT){
-                if(checktheplaceForRight(move.get(n).getImageView(),move.get(n).color)){
-                    move.get(n).getImageView().setLayoutX(move.get(n).getImageView().getLayoutX()+10);
-                    System.out.println(move.get(n).getImageView().getLayoutX());
+                if(checktheplaceForRight(move.get(n).capsule)){
+                    move.get(n).capsule.gotToRight();
 
                 }
             }
             if(t.getCode()==KeyCode.LEFT){
-                if(checkforLeft(move.get(n).getImageView(),move.get(n).color)){
-                    move.get(n).getImageView().setLayoutX(move.get(n).getImageView().getLayoutX()-10);
-                    System.out.println(move.get(n).getImageView().getLayoutX());
+                if(checkforLeft(move.get(n).capsule)){
+                    move.get(n).capsule.gotToLeft();
                 }
             }
             if(t.getCode()==KeyCode.DOWN){
-                if(CheckforDown(move.get(n).getImageView(),move.get(n).color)){
-                    move.get(n).getImageView().setLayoutY(move.get(n).getImageView().getLayoutY()+2);
+                if(CheckforDown(move.get(n).capsule)){
+                    move.get(n).capsule.getDown();
                 }
             }
-        });*/
+        });
         mainThread.start();
         //virusThread.start();
         return scene;
     }
-        public static boolean checktheplaceForRight(ImageView imageView,int color){
+        public static boolean checktheplaceForRight(Capsule capsule){
         boolean re=true;
-        int x=(int)(imageView.getLayoutX()/10)-14;
-        int y=(int)(imageView.getLayoutY()-120)/10;
+        int x=(int)(capsule.imageViewLeft.getLayoutX()/10)-14;
+        int y=(int)(capsule.imageViewLeft.getLayoutY()-120)/10;
         if(Matrix.matrix[y][x+2]!=0){
             re=false;
        }
         else {
             Matrix.matrix[y][x]=0;
-            Matrix.matrix[y][x+2]=color;
+            Matrix.matrix[y][x+1]= capsule.leftNumber;
+            Matrix.matrix[y][x+2]= capsule.rightNumber;
         }
         return re;
     }
-    public static boolean CheckforDown(ImageView imageView,int color){
+    public static boolean CheckforDown(Capsule capsule){
         boolean re=true;
-        int x=(int)(imageView.getLayoutX()/10)-14;
-        int y=(int)(imageView.getLayoutY()-120)/10;
-        if(Matrix.matrix[y+1][x]!=0&&Matrix.matrix[y+1][x+1]!=0){
+        int x=(int)(capsule.imageViewLeft.getLayoutX()/10)-14;
+        int y=(int)(capsule.imageViewLeft.getLayoutY()-120)/10;
+        if(Matrix.matrix[y+1][x]!=0||Matrix.matrix[y+1][x+1]!=0){
             re=false;
         }
         else {
             Matrix.matrix[y][x]=0;
             Matrix.matrix[y][x+1]=0;
-            Matrix.matrix[y+1][x]=color;
-            Matrix.matrix[y+1][x+1]=color;
+            Matrix.matrix[y+1][x]= capsule.leftNumber;
+            Matrix.matrix[y+1][x+1]=capsule.rightNumber;
         }
         return re;
     }
-    public static boolean checkforLeft(ImageView imageView,int color){
+    public static boolean checkforLeft(Capsule capsule){
         boolean re=true;
-        int x=(int)(imageView.getLayoutX()/10)-14;
-        int y=(int)(imageView.getLayoutY()-120)/10;
+        int x=(int)(capsule.imageViewLeft.getLayoutX()/10)-14;
+        int y=(int)(capsule.imageViewLeft.getLayoutY()-120)/10;
 
         if(Matrix.matrix[y][x-1]!=0){
             re=false;
         }
         else {
             Matrix.matrix[y][x+1]=0;
-            Matrix.matrix[y][x-1]=color;
+            Matrix.matrix[y][x-1]=capsule.leftNumber;
+            Matrix.matrix[y][x]=capsule.rightNumber;
+
         }
         return re;
     }

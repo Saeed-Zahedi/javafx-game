@@ -21,7 +21,7 @@ public class AllCapsuleImages {
         images.add(image1);
         images.add(image2);
         for(int i=0;i<100;i++){
-            AllCapsuleImages.imageViews.add(new ImageView(images.get((int)(Math.random()*3))));
+            AllCapsuleImages.imageViews.add(new ImageView(images.get(i%3)));
         }
 
     }

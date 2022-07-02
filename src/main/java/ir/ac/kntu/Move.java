@@ -21,16 +21,19 @@ public class Move implements Runnable{
         System.out.println("1");
         pane.getChildren().add(rightImage);
         System.out.println("2");
-        capsule.imageViewRight.setLayoutY(110);
+        capsule.imageViewRight.setLayoutY(130);
         capsule.imageViewRight.setLayoutX(190);
-        capsule.imageViewLeft.setLayoutY(110);
+        capsule.imageViewLeft.setLayoutY(130);
         capsule.imageViewLeft.setLayoutX(180);
     }
 
     @Override
     public void run() {
+        if(GameLoop.CheckforDown(capsule)){
         capsule.imageViewRight.setLayoutY(capsule.imageViewRight.getLayoutY()+10);
         capsule.imageViewLeft.setLayoutY(capsule.imageViewLeft.getLayoutY()+10);
+        }
+        Matrix.seeMatrix();
     }
 
 }
