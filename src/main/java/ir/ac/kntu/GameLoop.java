@@ -105,6 +105,7 @@ public class GameLoop {
 
                     }
                     Platform.runLater(move.get(j));
+                    upDateTheMatrix();
                 }
 
             }
@@ -199,92 +200,29 @@ public class GameLoop {
         }
         return re;
     }
-    /*public static ArrayList<Move> upDateForMatrix(ArrayList<Move>moves,Pane pane){
-        ArrayList<Move>re=new ArrayList<>();
-        for(int i=0;i<re.size();i++){
-            re.remove(i);
-        }
+    public static void upDateTheMatrix(){
         for(int i=0;i<24;i++){
-            for (int j=1;j<=7;j++){
-                    int n=Matrix.matrix[i][j];
-                    if(Matrix.matrix[i][j+1]==n&&Matrix.matrix[i][j+2]==n&&Matrix.matrix[i][j+3]==n&&n!=0){
-                          //  for (int k = 0; k < 4; k++) {
-                             for(Move m:moves){
-                                 if((m.getImageView().getLayoutY()-120)/10==i){
-                                     if((m.getImageView().getLayoutX()/10)-14==j){
-                                         re.add(m);
-                                     }
-                                  }
-                                 }
-                        for(Move m1:moves){
-                            if((m1.getImageView().getLayoutY()-120)/10==i){
-                                if((m1.getImageView().getLayoutX()/10)-14==j+2){
-                                    System.out.println("happend2");
-                                    re.add(m1);
-
-                                }
-                            }
-                        }
-                           // }
-                    }
-            }
-        }
-        for (int i = 1; i < 11; i++) {
-            for(int j=0;j<22;j++){
-                int n=Matrix.matrix[j][i];
-                if(Matrix.matrix[j+1][i]==n&&Matrix.matrix[j+2][i]==n&&Matrix.matrix[j+3][i]==n&&n!=0) {
-                    for (int k = 0; k < 4; k++) {
-                     for(Move m:moves){
-                         if((m.getImageView().getLayoutX()/10)-14==i){
-                             if((m.getImageView().getLayoutY()-120)/10==j){
-                                 pane.getChildren().remove(m);
-                             }
-                         }
-                     }
-                    }
-                }
-            }
-        }
-        return re;
-    }
-    public static boolean CheckupDateForMatrix(ArrayList<Move>moves,Pane pane){
-        boolean re=false;
-        for(int i=0;i<24;i++){
-            for (int j=1;j<=7;j++){
+            for (int j = 1; j <8 ; j++) {
                 int n=Matrix.matrix[i][j];
                 if(Matrix.matrix[i][j+1]==n&&Matrix.matrix[i][j+2]==n&&Matrix.matrix[i][j+3]==n&&n!=0){
-                    System.out.println("happend1");
-                    for (int k = 0; k < 4; k++) {
-                        for(Move m:moves){
-                            if((m.getImageView().getLayoutY()-120)/10==i){
-                                if((m.getImageView().getLayoutX()/10)-14==j){
-                                   // System.out.println("happend2");
-                                    // pane.getChildren().remove(m.getImageView());
-                                    re=true;
+                    int flag=Matrix.matrix[i][j+3];
+                    int index=0;
+                    for (int k = 1; k < 7; k++) {
+                        try {
+                            if(Matrix.matrix[i][j+3+k]==n&&flag==Matrix.matrix[i][j+3+k]){
+                                flag=Matrix.matrix[i][j+3+k];
+                                index=k;
+                            }
+                        }catch (Exception e){
 
-                                }
-                            }
                         }
+
+                    }
+                    for (int k = 0; k < 4+index; k++) {
+                        Matrix.matrix[i][j+k]=0;
                     }
                 }
             }
         }
-        for (int i = 1; i < 11; i++) {
-            for(int j=0;j<22;j++){
-                int n=Matrix.matrix[j][i];
-                if(Matrix.matrix[j+1][i]==n&&Matrix.matrix[j+2][i]==n&&Matrix.matrix[j+3][i]==n&&n!=0) {
-                    for (int k = 0; k < 4; k++) {
-                        for(Move m:moves){
-                            if((m.getImageView().getLayoutX()/10)-14==i){
-                                if((m.getImageView().getLayoutY()-120)/10==j){
-                                    pane.getChildren().remove(m);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-      //  return re;
-    }*/
+    }
 }
