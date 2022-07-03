@@ -34,6 +34,7 @@ public class GameLoop {
     }
     static int n=0;
     static boolean re=false;
+    static ArrayList<Move>move=new ArrayList<>();
     public static Scene gameLoop(Player player,int level,Speed speed) throws FileNotFoundException {
         Pane pane=new Pane();
         /*for (int i=0;i<AllCapsules.capsules.size();i++){
@@ -83,7 +84,7 @@ public class GameLoop {
        // pane.getChildren().add(circle);
         Scene scene=new Scene(pane,400,400);
         boolean flag=true;
-        ArrayList<Move>move=new ArrayList<>();
+
         for(int i=0;i<50;i++){
             move.add(new Move(pane,i));
         }
@@ -105,10 +106,42 @@ public class GameLoop {
 
                     }
                     Platform.runLater(move.get(j));
-                    upDateTheMatrix();
+                    /*for(int m=0;m<24;m++){
+                        for (int J = 1; J <8 ; J++) {
+                            int n=Matrix.matrix[m][J];
+                            if(Matrix.matrix[m][J+1]==n&&Matrix.matrix[m][J+2]==n&&Matrix.matrix[m][J+3]==n&&n!=0){
+                                int flag1=Matrix.matrix[m][J+3];
+                                int index=0;
+                                for (int k = 1; k < 7; k++) {
+                                    try {
+                                        if(Matrix.matrix[m][J+3+k]==n&&flag1==Matrix.matrix[m][J+3+k]){
+                                            flag1=Matrix.matrix[m][J+3+k];
+                                            index=k;
+                                        }
+                                    }catch (Exception e){
+
+                                    }
+
+                                }
+                                for (int k = 0; k < 4+index; k++) {
+                                    Matrix.matrix[m][J+k]=0;
+                                    for(Move mo:move){
+                                        if((mo.rightImage.getLayoutY()-120)/10==m&&(mo.rightImage.getLayoutX()/10)-14==J+k){
+                                            pane.getChildren().remove(mo.rightImage);
+                                        }
+                                        if((mo.leftImage.getLayoutY()-120)/10==m&&(mo.leftImage.getLayoutX()/10)-14==J+k){
+                                            pane.getChildren().remove(mo.leftImage);
+                                        }
+                                    }
+
+                                }
+                            }
+                        }*/
+                    }
+
                 }
 
-            }
+
 
         });
         Thread virusThread=new Thread(()->{
@@ -153,6 +186,7 @@ public class GameLoop {
         });
         mainThread.start();
         //virusThread.start();
+
         return scene;
     }
         public static boolean checktheplaceForRight(Capsule capsule){
@@ -200,17 +234,17 @@ public class GameLoop {
         }
         return re;
     }
-    public static void upDateTheMatrix(){
+    public static void upDateTheMatrix(Pane pane,ArrayList<Move>move){
         for(int i=0;i<24;i++){
             for (int j = 1; j <8 ; j++) {
                 int n=Matrix.matrix[i][j];
                 if(Matrix.matrix[i][j+1]==n&&Matrix.matrix[i][j+2]==n&&Matrix.matrix[i][j+3]==n&&n!=0){
-                    int flag=Matrix.matrix[i][j+3];
+                    int flag1=Matrix.matrix[i][j+3];
                     int index=0;
                     for (int k = 1; k < 7; k++) {
                         try {
-                            if(Matrix.matrix[i][j+3+k]==n&&flag==Matrix.matrix[i][j+3+k]){
-                                flag=Matrix.matrix[i][j+3+k];
+                            if(Matrix.matrix[i][j+3+k]==n&&flag1==Matrix.matrix[i][j+3+k]){
+                                flag1=Matrix.matrix[i][j+3+k];
                                 index=k;
                             }
                         }catch (Exception e){
@@ -220,6 +254,15 @@ public class GameLoop {
                     }
                     for (int k = 0; k < 4+index; k++) {
                         Matrix.matrix[i][j+k]=0;
+                        for(Move m:move){
+                            if((m.rightImage.getLayoutY()-120)/10==i&&(m.rightImage.getLayoutX()/10)-14==j+k){
+                                pane.getChildren().remove(m.rightImage);
+                            }
+                            if((m.leftImage.getLayoutY()-120)/10==i&&(m.leftImage.getLayoutX()/10)-14==j+k){
+                                pane.getChildren().remove(m.leftImage);
+                            }
+                        }
+
                     }
                 }
             }

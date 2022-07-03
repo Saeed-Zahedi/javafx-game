@@ -18,9 +18,7 @@ public class Move implements Runnable{
         rightImage=capsule.imageViewRight;
         this.pane=pane;
         pane.getChildren().add(leftImage);
-        System.out.println("1");
         pane.getChildren().add(rightImage);
-        System.out.println("2");
         capsule.imageViewRight.setLayoutY(130);
         capsule.imageViewRight.setLayoutX(190);
         capsule.imageViewLeft.setLayoutY(130);
@@ -34,6 +32,7 @@ public class Move implements Runnable{
         capsule.imageViewLeft.setLayoutY(capsule.imageViewLeft.getLayoutY()+10);
         }
         Matrix.seeMatrix();
+        GameLoop.upDateTheMatrix(pane,GameLoop.move);
     }
 
 }
