@@ -32,6 +32,7 @@ public class Move implements Runnable{
         capsule.imageViewLeft.setLayoutY(capsule.imageViewLeft.getLayoutY()+10);
         }
         Matrix.seeMatrix();
+        System.out.println();
         GameLoop.upDateTheMatrix(pane,GameLoop.move);
     }
 

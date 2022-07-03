@@ -17,6 +17,7 @@ public class VirusToPane implements Runnable {
         this.imageView=virus.imageView;
         imageView.setLayoutY((y*10)+120);
         imageView.setLayoutX((x+14)*10);
+        Matrix.matrix[y][x]=virus.number;
         imageView.setFitWidth(10);
         imageView.setFitHeight(10);
     }
