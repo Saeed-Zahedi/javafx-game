@@ -16,11 +16,12 @@ public class AllVirusImages {
         Image image1=new Image(fileInputStream1);
         Image image2=new Image(fileInputStream2);
         Image image3=new Image(fileInputStream3);
-        ImageView imageView1=new ImageView(image1);
-        ImageView imageView2=new ImageView(image2);
-        ImageView imageView3=new ImageView(image3);
-        AllVirusImages.imageViews.add(imageView1);
-        AllVirusImages.imageViews.add(imageView2);
-        AllVirusImages.imageViews.add(imageView3);
+        ArrayList<Image>images=new ArrayList<>();
+        images.add(image1);
+        images.add(image2);
+        images.add(image3);
+        for (int i = 0; i < 100; i++) {
+            AllVirusImages.imageViews.add(new ImageView(images.get(i%3)));
+        }
     }
 }

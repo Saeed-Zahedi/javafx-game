@@ -35,7 +35,9 @@ public class GameLoop {
     static int n=0;
     static boolean re=false;
     static ArrayList<Move>move=new ArrayList<>();
+    static ArrayList<VirusToPane>virusToPane=new ArrayList<>();
     public static Scene gameLoop(Player player,int level,Speed speed) throws FileNotFoundException {
+        AllVirus.makeVirus(level*4);
         Pane pane=new Pane();
         /*for (int i=0;i<AllCapsules.capsules.size();i++){
             pane.getChildren().add(AllCapsules.capsules.get(i).imageViewLeft);
@@ -88,7 +90,19 @@ public class GameLoop {
         for(int i=0;i<50;i++){
             move.add(new Move(pane,i));
         }
+        for (int i = 0; i < level*4; i++) {
+            virusToPane.add(new VirusToPane(pane,i));
+        }
+        Thread virusMakerThread=new Thread(()->{
+            try {
+                Thread.sleep(2000);
+            }catch (InterruptedException e){
 
+            }
+            for(int i=0;i<level*4;i++){
+                Platform.runLater(virusToPane.get(i));
+            }
+        });
         Thread mainThread=new Thread(()->{
             try {
                 Thread.sleep(2000);
@@ -184,6 +198,7 @@ public class GameLoop {
                 }
             }
         });
+       virusMakerThread.start();
         mainThread.start();
         //virusThread.start();
 
