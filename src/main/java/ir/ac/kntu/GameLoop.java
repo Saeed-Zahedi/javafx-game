@@ -198,7 +198,7 @@ public class GameLoop {
                 }
             }
             if(t.getCode()==KeyCode.A){
-
+               CheckForChangingPosition(move.get(n));
             }
         });
        virusMakerThread.start();
@@ -284,6 +284,30 @@ public class GameLoop {
                     }
                 }
             }
+        }
+    }
+    public static void CheckForChangingPosition(Move move){
+        int y = (int) (move.leftImage.getLayoutY() - 120) / 10;
+        int x = (int) move.leftImage.getLayoutX() / 10 - 14;
+        switch (move.capsule.capsulPosition) {
+            case X :
+            if (Matrix.matrix[y + 1][x] == 0) {
+                move.rightImage.setLayoutY(move.rightImage.getLayoutY() - 10);
+                move.rightImage.setLayoutX(move.rightImage.getLayoutX() - 10);
+                move.capsule.capsulPosition=CapsulPosition.Y;
+                Matrix.matrix[y+1][x]=move.capsule.rightNumber;
+                Matrix.matrix[y][x+1]=0;
+
+            }
+            break;
+            case Y:
+               if(Matrix.matrix[y ][x+1] == 0){
+                   move.rightImage.setLayoutY(move.rightImage.getLayoutY() + 10);
+                   move.rightImage.setLayoutX(move.rightImage.getLayoutX() + 10);
+                   move.capsule.capsulPosition=CapsulPosition.X;
+                   Matrix.matrix[y+1][x]=0;
+                   Matrix.matrix[y][x+1]=move.capsule.rightNumber;
+               }
         }
     }
 }

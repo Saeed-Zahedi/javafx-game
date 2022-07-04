@@ -10,8 +10,9 @@ public class Capsule {
     int rightNumber;
     ImageView imageViewLeft;
     ImageView imageViewRight;
-
+    CapsulPosition capsulPosition;
     public Capsule(int i) {
+        capsulPosition=CapsulPosition.X;
         int n=i%12;
         int m=(i+1)%12;
         imageViewLeft=AllCapsuleImages.imageViews.get(i);
@@ -73,5 +74,13 @@ public class Capsule {
     public void getDown(){
         imageViewLeft.setLayoutY(imageViewLeft.getLayoutY()+10);
         imageViewRight.setLayoutY(imageViewRight.getLayoutY()+10);
+    }
+    public void ChangePosition(){
+        switch (this.capsulPosition){
+            case X :this.capsulPosition=CapsulPosition.Y;
+            break;
+            case Y:this.capsulPosition=CapsulPosition.X;
+            break;
+        }
     }
 }
