@@ -207,32 +207,60 @@ public class GameLoop {
 
         return scene;
     }
-        public static boolean checktheplaceForRight(Capsule capsule){
-        boolean re=true;
-        int x=(int)(capsule.imageViewLeft.getLayoutX()/10)-14;
-        int y=(int)(capsule.imageViewLeft.getLayoutY()-120)/10;
-        if(Matrix.matrix[y][x+2]!=0){
-            re=false;
-       }
-        else {
-            Matrix.matrix[y][x]=0;
-            Matrix.matrix[y][x+1]= capsule.leftNumber;
-            Matrix.matrix[y][x+2]= capsule.rightNumber;
+        public static boolean checktheplaceForRight(Capsule capsule) {
+            boolean re = true;
+            int x = (int) (capsule.imageViewLeft.getLayoutX() / 10) - 14;
+            int y = (int) (capsule.imageViewLeft.getLayoutY() - 120) / 10;
+            switch (capsule.capsulPosition) {
+                case X:
+            if (Matrix.matrix[y][x + 2] != 0) {
+                re = false;
+            } else {
+                Matrix.matrix[y][x] = 0;
+                Matrix.matrix[y][x + 1] = capsule.leftNumber;
+                Matrix.matrix[y][x + 2] = capsule.rightNumber;
+            }
+            break;
+                case Y:
+                    if(Matrix.matrix[y][x+1]!=0||Matrix.matrix[y-1][x+1]!=0){
+                        re=false;
+                    }
+                    else {
+                        Matrix.matrix[y][x+1]=capsule.leftNumber;
+                        Matrix.matrix[y-1][x+1]= capsule.rightNumber;
+                        Matrix.matrix[y][x]=0;
+                        Matrix.matrix[y-1][x]=0;
+                    }
+                    break;
+
         }
         return re;
     }
     public static boolean CheckforDown(Capsule capsule){
         boolean re=true;
-        int x=(int)(capsule.imageViewLeft.getLayoutX()/10)-14;
-        int y=(int)(capsule.imageViewLeft.getLayoutY()-120)/10;
-        if(Matrix.matrix[y+1][x]!=0||Matrix.matrix[y+1][x+1]!=0){
-            re=false;
-        }
-        else {
-            Matrix.matrix[y][x]=0;
-            Matrix.matrix[y][x+1]=0;
-            Matrix.matrix[y+1][x]= capsule.leftNumber;
-            Matrix.matrix[y+1][x+1]=capsule.rightNumber;
+        int x = (int) (capsule.imageViewLeft.getLayoutX() / 10) - 14;
+        int y = (int) (capsule.imageViewLeft.getLayoutY() - 120) / 10;
+        switch (capsule.capsulPosition) {
+            case X :
+            if (Matrix.matrix[y + 1][x] != 0 || Matrix.matrix[y + 1][x + 1] != 0) {
+                re = false;
+            } else {
+                Matrix.matrix[y][x] = 0;
+                Matrix.matrix[y][x + 1] = 0;
+                Matrix.matrix[y + 1][x] = capsule.leftNumber;
+                Matrix.matrix[y + 1][x + 1] = capsule.rightNumber;
+            }
+            break;
+            case Y:
+                if(Matrix.matrix[y+1][x]!=0){
+                re=false;
+            }else {
+                    Matrix.matrix[y+1][x]= capsule.leftNumber;
+                    Matrix.matrix[y][x]= capsule.rightNumber;
+                    Matrix.matrix[y-1][x]=0;
+                }
+                break;
+
         }
         return re;
     }
@@ -240,7 +268,8 @@ public class GameLoop {
         boolean re=true;
         int x=(int)(capsule.imageViewLeft.getLayoutX()/10)-14;
         int y=(int)(capsule.imageViewLeft.getLayoutY()-120)/10;
-
+        switch (capsule.capsulPosition){
+            case X:
         if(Matrix.matrix[y][x-1]!=0){
             re=false;
         }
@@ -249,6 +278,19 @@ public class GameLoop {
             Matrix.matrix[y][x-1]=capsule.leftNumber;
             Matrix.matrix[y][x]=capsule.rightNumber;
 
+        }
+        break;
+            case Y:
+                if(Matrix.matrix[y][x-1]!=0||Matrix.matrix[y-1][x-1]!=0){
+                    re=false;
+                }
+                else {
+                    Matrix.matrix[y][x-1]= capsule.leftNumber;
+                    Matrix.matrix[y-1][x-1]= capsule.rightNumber;
+                    Matrix.matrix[y][x]= 0;
+                    Matrix.matrix[y-1][x]=0;
+                }
+                break;
         }
         return re;
     }
@@ -295,7 +337,7 @@ public class GameLoop {
                 move.rightImage.setLayoutY(move.rightImage.getLayoutY() - 10);
                 move.rightImage.setLayoutX(move.rightImage.getLayoutX() - 10);
                 move.capsule.capsulPosition=CapsulPosition.Y;
-                Matrix.matrix[y+1][x]=move.capsule.rightNumber;
+                Matrix.matrix[y-1][x]=move.capsule.rightNumber;
                 Matrix.matrix[y][x+1]=0;
 
             }
@@ -305,7 +347,7 @@ public class GameLoop {
                    move.rightImage.setLayoutY(move.rightImage.getLayoutY() + 10);
                    move.rightImage.setLayoutX(move.rightImage.getLayoutX() + 10);
                    move.capsule.capsulPosition=CapsulPosition.X;
-                   Matrix.matrix[y+1][x]=0;
+                   Matrix.matrix[y-1][x]=0;
                    Matrix.matrix[y][x+1]=move.capsule.rightNumber;
                }
         }
