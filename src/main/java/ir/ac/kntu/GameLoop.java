@@ -275,6 +275,7 @@ public class GameLoop {
                             }
                             if((m.leftImage.getLayoutY()-120)/10==i&&(m.leftImage.getLayoutX()/10)-14==j+k){
                                 pane.getChildren().remove(m.leftImage);
+
                             }
                         }
 
