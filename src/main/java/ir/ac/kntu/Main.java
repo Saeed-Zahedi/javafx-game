@@ -8,6 +8,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 
 /**
  * @author Sina Rostami
@@ -21,6 +25,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        File file=new File("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\file.txt");
+        BufferedReader bufferedReader=new BufferedReader(new FileReader(file));
+        String st;
+         while ((st=bufferedReader.readLine())!=null){
+             new Player(st);
+         }
         AllVirusImages.fillTheVirusImages();
         AllCapsuleImages.fillThePicturesOfCapsules();
         AllCapsules.makeCapsule(100);

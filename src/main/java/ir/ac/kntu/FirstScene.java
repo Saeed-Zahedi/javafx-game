@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class FirstScene {
     public static Scene firstScene(Stage stage){
@@ -28,7 +29,11 @@ public class FirstScene {
         speed.getItems().add(Speed.LOW);
         Button button=new Button("Make new player");
         button.addEventHandler(MouseEvent.MOUSE_CLICKED,e->{
-            stage.setScene(SecondScene.secondScene(stage));
+            try {
+                stage.setScene(SecondScene.secondScene(stage));
+            } catch (IOException ex) {
+
+            }
         });
         Button button1=new Button("Start!");
         button1.addEventHandler(MouseEvent.MOUSE_CLICKED,e->{

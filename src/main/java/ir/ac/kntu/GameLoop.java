@@ -197,6 +197,9 @@ public class GameLoop {
                     move.get(n).capsule.getDown();
                 }
             }
+            if(t.getCode()==KeyCode.A){
+
+            }
         });
        virusMakerThread.start();
         mainThread.start();
@@ -275,7 +278,6 @@ public class GameLoop {
                             }
                             if((m.leftImage.getLayoutY()-120)/10==i&&(m.leftImage.getLayoutX()/10)-14==j+k){
                                 pane.getChildren().remove(m.leftImage);
-
                             }
                         }
 
