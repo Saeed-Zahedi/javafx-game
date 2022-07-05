@@ -39,11 +39,6 @@ public class GameLoop {
     public static Scene gameLoop(Player player,int level,Speed speed) throws FileNotFoundException {
         AllVirus.makeVirus(level*4);
         Pane pane=new Pane();
-        /*for (int i=0;i<AllCapsules.capsules.size();i++){
-            pane.getChildren().add(AllCapsules.capsules.get(i).imageViewLeft);
-            pane.getChildren().add(AllCapsules.capsules.get(i).imageViewRight);
-        }*/
-       // Circle circle=new Circle(200,120,10,Color.RED);
         FileInputStream fileInputStream=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\MainScene.png");
         Image image=new Image(fileInputStream);
         ImageView imageView=new ImageView(image);
@@ -76,19 +71,47 @@ public class GameLoop {
         }
 
         Text text=new Text();
-        text.setText("Score:");
+        text.setText("Score :");
         text.setLayoutX(30);
-        text.setLayoutY(80);
-        text.setStroke(Color.RED);
+        text.setLayoutY(100);
+        text.setStroke(Color.DARKORANGE);
         text.setStrokeWidth(2);
+       // Text text1=new Text();
+       // text1.setText(""+player.score);
+        //text1.setLayoutX(50);
+        //text1.setLayoutY(120);
+        Text text2=new Text();
+        text2.setText("Player : "+player.name);
+        text2.setLayoutY(80);
+        text2.setLayoutX(30);
+        Text text3=new Text();
+        text3.setText("level :");
+        Text text4=new Text();
+        text4.setText(""+level);
+        text4.setLayoutX(330);
+        text4.setLayoutY(250);
+        text3.setLayoutX(290);
+        text3.setLayoutY(250);
+        Text text5=new Text();
+        text5.setText("Speed :");
+        text5.setLayoutY(300);
+        text5.setLayoutX(290);
+        Text text6=new Text();
+        text6.setText(speed.name());
+        text6.setLayoutX(330);
+        text6.setLayoutY(300);
         pane.getChildren().add(imageView);
         pane.getChildren().add(text);
-       // pane.getChildren().add(circle);
+        //pane.getChildren().add(text1);
+        pane.getChildren().add(text2);
+        pane.getChildren().add(text3);
+        pane.getChildren().add(text4);
+        pane.getChildren().add(text5);
+        pane.getChildren().add(text6);
         Scene scene=new Scene(pane,400,400);
         boolean flag=true;
-
         for(int i=0;i<50;i++){
-            move.add(new Move(pane,i));
+            move.add(new Move(pane,i,player));
         }
         for (int i = 0; i < level*4; i++) {
             virusToPane.add(new VirusToPane(pane,i));
@@ -120,43 +143,9 @@ public class GameLoop {
 
                     }
                     Platform.runLater(move.get(j));
-                    /*for(int m=0;m<24;m++){
-                        for (int J = 1; J <8 ; J++) {
-                            int n=Matrix.matrix[m][J];
-                            if(Matrix.matrix[m][J+1]==n&&Matrix.matrix[m][J+2]==n&&Matrix.matrix[m][J+3]==n&&n!=0){
-                                int flag1=Matrix.matrix[m][J+3];
-                                int index=0;
-                                for (int k = 1; k < 7; k++) {
-                                    try {
-                                        if(Matrix.matrix[m][J+3+k]==n&&flag1==Matrix.matrix[m][J+3+k]){
-                                            flag1=Matrix.matrix[m][J+3+k];
-                                            index=k;
-                                        }
-                                    }catch (Exception e){
-
-                                    }
-
-                                }
-                                for (int k = 0; k < 4+index; k++) {
-                                    Matrix.matrix[m][J+k]=0;
-                                    for(Move mo:move){
-                                        if((mo.rightImage.getLayoutY()-120)/10==m&&(mo.rightImage.getLayoutX()/10)-14==J+k){
-                                            pane.getChildren().remove(mo.rightImage);
-                                        }
-                                        if((mo.leftImage.getLayoutY()-120)/10==m&&(mo.leftImage.getLayoutX()/10)-14==J+k){
-                                            pane.getChildren().remove(mo.leftImage);
-                                        }
-                                    }
-
-                                }
-                            }
-                        }*/
                     }
-
+                    GameLoop.updateTheImages();
                 }
-
-
-
         });
         Thread virusThread=new Thread(()->{
             try {
@@ -203,7 +192,7 @@ public class GameLoop {
         });
        virusMakerThread.start();
         mainThread.start();
-        //virusThread.start();
+        virusThread.start();
 
         return scene;
     }
@@ -294,7 +283,7 @@ public class GameLoop {
         }
         return re;
     }
-    public static void upDateTheMatrix(Pane pane,ArrayList<Move>move){
+    public static void upDateTheMatrixX(Pane pane,ArrayList<Move>move,Player player){
         for(int i=0;i<24;i++){
             for (int j = 1; j <8 ; j++) {
                 int n=Matrix.matrix[i][j];
@@ -306,6 +295,9 @@ public class GameLoop {
                             if(Matrix.matrix[i][j+3+k]==n&&flag1==Matrix.matrix[i][j+3+k]){
                                 flag1=Matrix.matrix[i][j+3+k];
                                 index=k;
+                            }
+                            else {
+                                break;
                             }
                         }catch (Exception e){
 
@@ -322,11 +314,62 @@ public class GameLoop {
                                 pane.getChildren().remove(m.leftImage);
                             }
                         }
-
+                        for (Virus virus : AllVirus.virus) {
+                            if ((virus.imageView.getLayoutY()-120) / 10 ==i && virus.imageView.getLayoutX() / 10 - 14 ==j+k) {
+                                player.score++;
+                                virus.number = 0;
+                                pane.getChildren().remove(virus.imageView);
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+    public static void upDateTheMatrixY(Pane pane,ArrayList<Move>move,Player player){
+        for (int i = 1; i <11; i++) {
+            for (int j = 0; j < 22; j++) {
+                int n=Matrix.matrix[j][i];
+                if(Matrix.matrix[j+1][i]==n&&Matrix.matrix[j+2][i]==n&&Matrix.matrix[j+3][i]==n&&n!=0){
+                    int flag1=Matrix.matrix[j+3][i];
+                    int index=0;
+                    for (int k = 1; k <4 ; k++) {
+                        try {
+                            if(flag1==Matrix.matrix[j+3+k][i]&&Matrix.matrix[j+3+k][i]==n){
+                                index=k;
+                            }else {
+                                break;
+                            }
+
+                        }catch (Exception e){
+
+                        }
+                    }
+                    for (int k = 0; k < index+4; k++) {
+                        Matrix.matrix[j + k][i] = 0;
+                        for (Move m : move) {
+                            if ((m.rightImage.getLayoutY() - 120) / 10 == j + k && (m.rightImage.getLayoutX() / 10) - 14 == i) {
+                                m.capsule.rightNumber = 0;
+                                pane.getChildren().remove(m.rightImage);
+                            }
+                            if ((m.leftImage.getLayoutY() - 120) / 10 == j + k && (m.leftImage.getLayoutX() / 10) - 14 == i) {
+                                m.capsule.leftNumber = 0;
+                                pane.getChildren().remove(m.leftImage);
+                            }
+                        }
+                        for (Virus virus : AllVirus.virus) {
+                            if ((virus.imageView.getLayoutY() - 120) / 10 == j + k && virus.imageView.getLayoutX() / 10 - 14 == i) {
+                                player.score++;
+                                virus.number = 0;
+                                pane.getChildren().remove(virus.imageView);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
     }
     public static void CheckForChangingPosition(Move move){
         int y = (int) (move.leftImage.getLayoutY() - 120) / 10;
@@ -351,5 +394,48 @@ public class GameLoop {
                    Matrix.matrix[y][x+1]=move.capsule.rightNumber;
                }
         }
+    }
+    public static void updateTheImages(){
+        for(Move m:move) {
+            if (m.capsule.leftNumber == 0 && m.capsule.rightNumber != 0) {
+                int index = 0;
+                int y = (int) (m.rightImage.getLayoutY() - 120) / 10;
+                int x = (int) (m.rightImage.getLayoutX() / 10 - 14);
+                for (int i = 1; i < 22; i++) {
+                    try {
+                        if (Matrix.matrix[y + i][x] == 0) {
+                            index++;
+                        }
+                    }catch (Exception e){
+
+                    }
+                }
+                m.rightImage.setLayoutY(m.rightImage.getLayoutY()+(10*index));
+            }
+            if (m.capsule.leftNumber != 0 && m.capsule.rightNumber == 0) {
+                int index = 0;
+                int y = (int) (m.leftImage.getLayoutY() - 120) / 10;
+                int x = (int) (m.leftImage.getLayoutX() / 10 - 14);
+                for (int i = 1; i < 22; i++) {
+                    try {
+                        if (Matrix.matrix[y + i][x] == 0) {
+                            index++;
+                        }
+                    }catch (Exception e){
+
+                    }
+                }
+                m.leftImage.setLayoutY(m.leftImage.getLayoutY()+(10*index));
+            }
+
+        }
+    }
+    public static void upDateTheScore(Pane pane,Player player){
+        Text text=new Text();
+        text.setText(""+player.score);
+        text.setLayoutY(120);
+        text.setLayoutX(50);
+        pane.getChildren().add(text);
+        System.out.println(player.score);
     }
 }

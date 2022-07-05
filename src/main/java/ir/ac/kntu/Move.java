@@ -12,7 +12,9 @@ public class Move implements Runnable{
     ImageView leftImage;
     ImageView rightImage;
     Pane pane;
-    public Move(Pane pane,int i) {
+    Player player;
+    public Move(Pane pane,int i,Player player) {
+        this.player=player;
         this.capsule=AllCapsules.capsules.get(i);
         leftImage=capsule.imageViewLeft;
         rightImage=capsule.imageViewRight;
@@ -33,7 +35,9 @@ public class Move implements Runnable{
         }
         Matrix.seeMatrix();
         System.out.println();
-        GameLoop.upDateTheMatrix(pane,GameLoop.move);
+        GameLoop.upDateTheMatrixX(pane,GameLoop.move,player);
+        GameLoop.upDateTheMatrixY(pane,GameLoop.move,player);
+        GameLoop.upDateTheScore(pane,player);
     }
 
 }
