@@ -40,7 +40,7 @@ public class GameLoop {
     public static Scene gameLoop(Player player,int level,Speed speed) throws FileNotFoundException {
         AllVirus.makeVirus(level*4);
         Pane pane=new Pane();
-        FileInputStream fileInputStream=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\MainScene.png");
+        FileInputStream fileInputStream=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\MainScene2.png");
         Image image=new Image(fileInputStream);
         ImageView imageView=new ImageView(image);
         imageView.setFitHeight(400);
@@ -67,8 +67,42 @@ public class GameLoop {
         imageViews.add(imageView4);
         imageViews.add(imageView5);
         for (int i = 0; i < imageViews.size(); i++) {
-            imageViews.get(i).setLayoutX(100);
-            imageViews.get(i).setLayoutY(200);
+            imageViews.get(i).setLayoutX(75);
+            imageViews.get(i).setLayoutY(250);
+            imageViews.get(i).setFitHeight(30);
+            imageViews.get(i).setFitWidth(30);
+        }
+        FileInputStream fileInputStream12=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\FirstRVirus.PNG");
+        FileInputStream fileInputStream22=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\SecondRVirus.PNG");
+        FileInputStream fileInputStream32=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\ThirdRVirus.PNG");
+        FileInputStream fileInputStream42=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\FourthRVirus.PNG");
+        FileInputStream fileInputStream52=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\FiveRVirus.PNG");
+        FileInputStream fileInputStream62=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\SixRVirus.PNG");
+        Image image12=new Image(fileInputStream12);
+        Image image22=new Image(fileInputStream22);
+        Image image32=new Image(fileInputStream32);
+        Image image42=new Image(fileInputStream42);
+        Image image52=new Image(fileInputStream52);
+        Image image62=new Image(fileInputStream62);
+        ImageView imageView12=new ImageView(image12);
+        ImageView imageView22=new ImageView(image22);
+        ImageView imageView32=new ImageView(image32);
+        ImageView imageView42=new ImageView(image42);
+        ImageView imageView52=new ImageView(image52);
+        ImageView imageView62=new ImageView(image62);
+        ArrayList<ImageView>imageViews2=new ArrayList<>();
+        imageViews2.add(imageView12);
+        imageViews2.add(imageView22);
+        imageViews2.add(imageView32);
+        imageViews2.add(imageView42);
+        imageViews2.add(imageView52);
+        imageViews2.add(imageView62);
+        for (int i = 0; i < imageViews2.size(); i++) {
+            imageViews2.get(i).setLayoutX(30);
+            imageViews2.get(i).setLayoutY(250);
+            imageViews2.get(i).setFitHeight(30);
+            imageViews2.get(i).setFitWidth(30);
+
         }
 
         Text text=new Text();
@@ -77,10 +111,6 @@ public class GameLoop {
         text.setLayoutY(100);
         text.setStroke(Color.DARKORANGE);
         text.setStrokeWidth(2);
-       // Text text1=new Text();
-       // text1.setText(""+player.score);
-        //text1.setLayoutX(50);
-        //text1.setLayoutY(120);
         Text text2=new Text();
         text2.setText("Player : "+player.name);
         text2.setLayoutY(80);
@@ -170,6 +200,28 @@ public class GameLoop {
                 }
             }
         });
+        Thread virusThread2=new Thread(()->{
+            try {
+                Thread.sleep(2000);
+            }
+            catch (InterruptedException e){
+
+            }
+            for(int i=0;i<10000;i++){
+                Platform.runLater(new VisrusAnimataion(imageViews2,pane,i));
+                try {
+                    Thread.sleep(100);
+                }catch (InterruptedException ex){
+
+                }
+                Platform.runLater(new VirusAnimation2(imageViews2,pane,i));
+                try {
+                    Thread.sleep(100);
+                }catch (InterruptedException ex){
+
+                }
+            }
+        });
        scene.addEventHandler(KeyEvent.KEY_PRESSED, t->{
             if(t.getCode()==KeyCode.RIGHT){
                 if(checktheplaceForRight(move.get(n).capsule)){
@@ -194,6 +246,7 @@ public class GameLoop {
        virusMakerThread.start();
         mainThread.start();
         virusThread.start();
+        virusThread2.start();
 
         return scene;
     }
