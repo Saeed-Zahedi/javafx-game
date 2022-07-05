@@ -102,9 +102,65 @@ public class GameLoop {
             imageViews2.get(i).setLayoutY(250);
             imageViews2.get(i).setFitHeight(30);
             imageViews2.get(i).setFitWidth(30);
-
         }
-
+        /*FileInputStream fileInputStream1=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\firstYvirus.PNG");
+        FileInputStream fileInputStream2=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\secondYvirus.PNG");
+        FileInputStream fileInputStream3=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\ThirdYvirus.PNG");
+        FileInputStream fileInputStream4=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\fourthYvirus.PNG");
+        FileInputStream fileInputStream5=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\fithYvirus.PNG");
+        Image image1=new Image(fileInputStream1);
+        Image image2=new Image(fileInputStream2);
+        Image image3=new Image(fileInputStream3);
+        Image image4=new Image(fileInputStream4);
+        Image image5=new Image(fileInputStream5);
+        ImageView imageView1=new ImageView(image1);
+        ImageView imageView2=new ImageView(image2);
+        ImageView imageView3=new ImageView(image3);
+        ImageView imageView4=new ImageView(image4);
+        ImageView imageView5=new ImageView(image5);
+        ArrayList<ImageView>imageViews=new ArrayList<>();
+        imageViews.add(imageView1);
+        imageViews.add(imageView2);
+        imageViews.add(imageView3);
+        imageViews.add(imageView4);
+        imageViews.add(imageView5);
+        for (int i = 0; i < imageViews.size(); i++) {
+            imageViews.get(i).setLayoutX(75);
+            imageViews.get(i).setLayoutY(250);
+            imageViews.get(i).setFitHeight(30);
+            imageViews.get(i).setFitWidth(30);
+        }*/
+        FileInputStream fileInputStream13=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\FirstBVirus.PNG");
+        FileInputStream fileInputStream23=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\SecondBVirus.PNG");
+        FileInputStream fileInputStream33=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\ThirdBVirus.PNG");
+        FileInputStream fileInputStream43=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\FourthBVirus.PNG");
+        FileInputStream fileInputStream53=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\FiveBVirus.PNG");
+        FileInputStream fileInputStream63=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\First1BVirus.PNG");
+        Image image13=new Image(fileInputStream13);
+        Image image23=new Image(fileInputStream23);
+        Image image33=new Image(fileInputStream33);
+        Image image43=new Image(fileInputStream43);
+        Image image53=new Image(fileInputStream53);
+        Image image63=new Image(fileInputStream63);
+        ImageView imageView13=new ImageView(image13);
+        ImageView imageView23=new ImageView(image23);
+        ImageView imageView33=new ImageView(image33);
+        ImageView imageView43=new ImageView(image43);
+        ImageView imageView53=new ImageView(image53);
+        ImageView imageView63=new ImageView(image63);
+        ArrayList<ImageView>imageViews3=new ArrayList<>();
+        imageViews3.add(imageView13);
+        imageViews3.add(imageView23);
+        imageViews3.add(imageView33);
+        imageViews3.add(imageView43);
+        imageViews3.add(imageView53);
+        imageViews3.add(imageView63);
+        for (int i = 0; i < imageViews2.size(); i++) {
+            imageViews3.get(i).setLayoutX(50);
+            imageViews3.get(i).setLayoutY(300);
+            imageViews3.get(i).setFitHeight(30);
+            imageViews3.get(i).setFitWidth(30);
+        }
         Text text=new Text();
         text.setText("Score :");
         text.setLayoutX(30);
@@ -222,6 +278,28 @@ public class GameLoop {
                 }
             }
         });
+        Thread virusThread3=new Thread(()->{
+            try {
+                Thread.sleep(2000);
+            }
+            catch (InterruptedException e){
+
+            }
+            for(int i=0;i<10000;i++){
+                Platform.runLater(new VisrusAnimataion(imageViews3,pane,i));
+                try {
+                    Thread.sleep(100);
+                }catch (InterruptedException ex){
+
+                }
+                Platform.runLater(new VirusAnimation2(imageViews3,pane,i));
+                try {
+                    Thread.sleep(100);
+                }catch (InterruptedException ex){
+
+                }
+            }
+        });
        scene.addEventHandler(KeyEvent.KEY_PRESSED, t->{
             if(t.getCode()==KeyCode.RIGHT){
                 if(checktheplaceForRight(move.get(n).capsule)){
@@ -247,6 +325,7 @@ public class GameLoop {
         mainThread.start();
         virusThread.start();
         virusThread2.start();
+        virusThread3.start();
 
         return scene;
     }
