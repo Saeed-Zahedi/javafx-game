@@ -36,6 +36,7 @@ public class GameLoop {
     static boolean re=false;
     static ArrayList<Move>move=new ArrayList<>();
     static ArrayList<VirusToPane>virusToPane=new ArrayList<>();
+    static Text text1=new Text();
     public static Scene gameLoop(Player player,int level,Speed speed) throws FileNotFoundException {
         AllVirus.makeVirus(level*4);
         Pane pane=new Pane();
@@ -431,11 +432,15 @@ public class GameLoop {
         }
     }
     public static void upDateTheScore(Pane pane,Player player){
-        Text text=new Text();
-        text.setText(""+player.score);
-        text.setLayoutY(120);
-        text.setLayoutX(50);
-        pane.getChildren().add(text);
+        text1.setText(""+player.score);
+        text1.setLayoutY(120);
+        text1.setLayoutX(50);
+        try {
+            pane.getChildren().remove(text1);
+        }catch (Exception e){
+
+        }
+        pane.getChildren().add(text1);
         System.out.println(player.score);
     }
 }
