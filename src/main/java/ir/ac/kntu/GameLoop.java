@@ -103,33 +103,25 @@ public class GameLoop {
             imageViews2.get(i).setFitHeight(30);
             imageViews2.get(i).setFitWidth(30);
         }
-        /*FileInputStream fileInputStream1=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\firstYvirus.PNG");
-        FileInputStream fileInputStream2=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\secondYvirus.PNG");
-        FileInputStream fileInputStream3=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\ThirdYvirus.PNG");
-        FileInputStream fileInputStream4=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\fourthYvirus.PNG");
-        FileInputStream fileInputStream5=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\fithYvirus.PNG");
-        Image image1=new Image(fileInputStream1);
-        Image image2=new Image(fileInputStream2);
-        Image image3=new Image(fileInputStream3);
-        Image image4=new Image(fileInputStream4);
-        Image image5=new Image(fileInputStream5);
-        ImageView imageView1=new ImageView(image1);
-        ImageView imageView2=new ImageView(image2);
-        ImageView imageView3=new ImageView(image3);
-        ImageView imageView4=new ImageView(image4);
-        ImageView imageView5=new ImageView(image5);
-        ArrayList<ImageView>imageViews=new ArrayList<>();
-        imageViews.add(imageView1);
-        imageViews.add(imageView2);
-        imageViews.add(imageView3);
-        imageViews.add(imageView4);
-        imageViews.add(imageView5);
-        for (int i = 0; i < imageViews.size(); i++) {
-            imageViews.get(i).setLayoutX(75);
-            imageViews.get(i).setLayoutY(250);
-            imageViews.get(i).setFitHeight(30);
-            imageViews.get(i).setFitWidth(30);
-        }*/
+        FileInputStream fileInputStreamDr1=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\FirstDr.PNG");
+        Image imageDr1=new Image(fileInputStreamDr1);
+        ImageView imageViewDr1=new ImageView(imageDr1);
+        imageViewDr1.setLayoutY(130);
+        imageViewDr1.setLayoutX(300);
+        FileInputStream fileInputStreamDr2=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\SecondDr.PNG");
+        Image imageDr2=new Image(fileInputStreamDr2);
+        ImageView imageViewDr2=new ImageView(imageDr2);
+        imageViewDr2.setLayoutY(130);
+        imageViewDr2.setLayoutX(300);
+        FileInputStream fileInputStreamDr3=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\ThirdDr.PNG");
+        Image imageDr3=new Image(fileInputStreamDr3);
+        ImageView imageViewDr3=new ImageView(imageDr3);
+        imageViewDr3.setLayoutY(130);
+        imageViewDr3.setLayoutX(300);
+        ArrayList<ImageView>Dr=new ArrayList<>();
+        Dr.add(imageViewDr1);
+        Dr.add(imageViewDr2);
+        Dr.add(imageViewDr3);
         FileInputStream fileInputStream13=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\FirstBVirus.PNG");
         FileInputStream fileInputStream23=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\SecondBVirus.PNG");
         FileInputStream fileInputStream33=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\ThirdBVirus.PNG");
@@ -189,7 +181,6 @@ public class GameLoop {
         text6.setLayoutY(300);
         pane.getChildren().add(imageView);
         pane.getChildren().add(text);
-        //pane.getChildren().add(text1);
         pane.getChildren().add(text2);
         pane.getChildren().add(text3);
         pane.getChildren().add(text4);
@@ -222,6 +213,7 @@ public class GameLoop {
             }
             for (int j = 0; j < 50; j++) {
                 n=j;
+                //drAnimation.DoTheAnimation();
                 for (int i = 0; i < 23; i++) {
 
                     try {
@@ -300,6 +292,35 @@ public class GameLoop {
                 }
             }
         });
+        Thread DrThread=new Thread(()->{
+            try {
+                Thread.sleep(2000);
+            }
+            catch (InterruptedException e){
+
+            }
+            for(int i=0;i<10000;i++){
+                Platform.runLater(new DrAnimation(Dr,pane,i));
+                if(i%3==0){
+                    try {
+                        Thread.sleep(12000);
+                    } catch (InterruptedException e) {
+
+                    }
+                }
+                try {
+                    Thread.sleep(100);
+                }catch (InterruptedException ex){
+
+                }
+                Platform.runLater(new DrAnimation2(Dr,pane,i));
+                try {
+                    Thread.sleep(100);
+                }catch (InterruptedException ex){
+
+                }
+            }
+        });
        scene.addEventHandler(KeyEvent.KEY_PRESSED, t->{
             if(t.getCode()==KeyCode.RIGHT){
                 if(checktheplaceForRight(move.get(n).capsule)){
@@ -326,6 +347,7 @@ public class GameLoop {
         virusThread.start();
         virusThread2.start();
         virusThread3.start();
+        DrThread.start();
 
         return scene;
     }
