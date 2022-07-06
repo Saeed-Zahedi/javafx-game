@@ -36,6 +36,8 @@ public class Main extends Application {
         AllCapsules.makeCapsule(100);
         Matrix.makeMatrix();
         Stage stage=new Stage();
+        stage.setMaxHeight(400);
+        stage.setMaxWidth(400);
         stage.setScene(FirstScene.firstScene(stage));
         stage.show();
     }

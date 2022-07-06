@@ -218,20 +218,19 @@ public class GameLoop {
             }
             for (int j = 0; j < 50; j++) {
                 n = j;
+                if (!GameStatusUpDator.GameStatusCheckerForGameOver()) {
                     for (int i = 0; i < 23; i++) {
-                        if (!GameStatusUpDator.GameStatusCheckerForGameOver()) {
                             try {
-                                Thread.sleep(20);
+                                Thread.sleep(speedType(speed));
                             } catch (InterruptedException t) {
 
                             }
                             Platform.runLater(move.get(j));
-                        }else{
-                            new ChangeGamePlay(pane,imageViewGameOver).GameOver();
                         }
-                                break;
-                    }
-                    GameLoop.updateTheImages();
+                        GameLoop.updateTheImages();
+                    }else {
+                    System.out.println("Game over");
+                }
                 }
         });
         Thread virusThread=new Thread(()->{
