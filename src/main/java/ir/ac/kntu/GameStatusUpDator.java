@@ -1,6 +1,14 @@
 package ir.ac.kntu;
 
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+
 public class GameStatusUpDator {
+
+    public GameStatusUpDator() {
+
+    }
+
     public static boolean GameStatusCheckerForGameOver() {
         boolean first=false;
         boolean second=false;

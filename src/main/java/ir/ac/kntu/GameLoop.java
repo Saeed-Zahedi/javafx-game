@@ -49,7 +49,6 @@ public class GameLoop {
         FileInputStream fileInputStreamGameOver=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\GameOver.png");
         Image imageGameOver=new Image(fileInputStreamGameOver);
         ImageView imageViewGameOver=new ImageView(imageGameOver);
-        pane.getChildren().add(imageViewGameOver);
         FileInputStream fileInputStream1=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\firstYvirus.PNG");
         FileInputStream fileInputStream2=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\secondYvirus.PNG");
         FileInputStream fileInputStream3=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\ThirdYvirus.PNG");
@@ -218,20 +217,20 @@ public class GameLoop {
             }
             for (int j = 0; j < 50; j++) {
                 n = j;
-                if (!GameStatusUpDator.GameStatusCheckerForGameOver()) {
+                if(!GameStatusUpDator.GameStatusCheckerForGameOver()) {
                     for (int i = 0; i < 23; i++) {
-                            try {
-                                Thread.sleep(speedType(speed));
-                            } catch (InterruptedException t) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException t) {
 
-                            }
-                            Platform.runLater(move.get(j));
                         }
+                        Platform.runLater(move.get(j));
+                    }
+                }else {
+                    break;
+                }
                         GameLoop.updateTheImages();
-                    }else {
-                    System.out.println("Game over");
-                }
-                }
+                    }
         });
         Thread virusThread=new Thread(()->{
             try {
@@ -602,6 +601,5 @@ public class GameLoop {
 
         }
         pane.getChildren().add(text1);
-        System.out.println(player.score);
     }
 }
