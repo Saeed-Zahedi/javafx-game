@@ -23,7 +23,11 @@ public class SecondScene {
         //Writer writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\file.txt",true)));
 
         button1.addEventHandler(MouseEvent.MOUSE_CLICKED, e->{
-            stage.setScene(FirstScene.firstScene(stage));
+            try {
+                stage.setScene(FirstScene.firstScene(stage));
+            } catch (FileNotFoundException ex) {
+
+            }
         });
         button.addEventHandler(MouseEvent.MOUSE_CLICKED,e->{
             new Player(textField.getText());
