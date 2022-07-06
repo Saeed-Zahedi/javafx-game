@@ -24,7 +24,7 @@ public class FirstScene {
             playerChoiceBox.getItems().add(p);
         }
         ChoiceBox<Integer>level=new ChoiceBox<>();
-        for(int i=0;i<10;i++){
+        for(int i=1;i<10;i++){
             level.getItems().add(i);
         }
         ChoiceBox<Speed>speed=new ChoiceBox<>();

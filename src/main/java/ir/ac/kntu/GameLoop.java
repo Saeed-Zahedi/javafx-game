@@ -38,6 +38,7 @@ public class GameLoop {
     static ArrayList<Move>move=new ArrayList<>();
     static ArrayList<VirusToPane>virusToPane=new ArrayList<>();
     static Text text1=new Text();
+    static boolean flag1=false;
     public static Scene gameLoop(Player player, int level, Speed speed, Stage stage) throws FileNotFoundException {
         AllVirus.makeVirus(level*4);
         Pane pane=new Pane();
@@ -218,20 +219,33 @@ public class GameLoop {
             for (int j = 0; j < 50; j++) {
                 n = j;
                 if(!GameStatusUpDator.GameStatusCheckerForGameOver()) {
-                    for (int i = 0; i < 23; i++) {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException t) {
+                    if(player.score!=level*4) {
+                        for (int i = 0; i < 23; i++) {
+                            try {
+                                Thread.sleep(GameLoop.speedType(speed));
+                            } catch (InterruptedException t) {
 
+                            }
+                            Platform.runLater(move.get(j));
                         }
-                        Platform.runLater(move.get(j));
+                    }else {
+                            //stage.setScene(GameLoop.gameLoop(player,level+1,speed,stage));
+                            System.out.println("Should go to next level");
+                        flag1=true;
                     }
                 }else {
                     break;
                 }
-                        GameLoop.updateTheImages();
-                    }
+                GameLoop.updateTheImages();
+                if(flag1){
+                    break;
+                }
+            }
         });
+        if(flag1){
+
+            flag1=false;
+        }
         Thread virusThread=new Thread(()->{
             try {
                 Thread.sleep(2000);
@@ -572,6 +586,8 @@ public class GameLoop {
                     }
                 }
                 m.rightImage.setLayoutY(m.rightImage.getLayoutY()+(10*index));
+                Matrix.matrix[y][x]=0;
+                Matrix.matrix[y+index][x]=m.capsule.rightNumber;
             }
             if (m.capsule.leftNumber != 0 && m.capsule.rightNumber == 0) {
                 int index = 0;
@@ -587,6 +603,8 @@ public class GameLoop {
                     }
                 }
                 m.leftImage.setLayoutY(m.leftImage.getLayoutY()+(10*index));
+                Matrix.matrix[y][x]=0;
+                Matrix.matrix[y+index][x]=m.capsule.leftNumber;
             }
 
         }
