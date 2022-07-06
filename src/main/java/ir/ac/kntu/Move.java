@@ -21,10 +21,10 @@ public class Move implements Runnable{
         this.pane=pane;
         pane.getChildren().add(leftImage);
         pane.getChildren().add(rightImage);
-        capsule.imageViewRight.setLayoutY(130);
-        capsule.imageViewRight.setLayoutX(190);
-        capsule.imageViewLeft.setLayoutY(130);
-        capsule.imageViewLeft.setLayoutX(180);
+        capsule.imageViewRight.setLayoutY(120);
+        capsule.imageViewRight.setLayoutX(200);
+        capsule.imageViewLeft.setLayoutY(120);
+        capsule.imageViewLeft.setLayoutX(190);
     }
 
     @Override

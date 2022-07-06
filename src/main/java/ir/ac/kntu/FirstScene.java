@@ -38,7 +38,7 @@ public class FirstScene {
         Button button1=new Button("Start!");
         button1.addEventHandler(MouseEvent.MOUSE_CLICKED,e->{
             try {
-                stage.setScene(GameLoop.gameLoop(playerChoiceBox.getValue(),level.getValue(),speed.getValue()));
+                stage.setScene(GameLoop.gameLoop(playerChoiceBox.getValue(),level.getValue(),speed.getValue(),stage));
             }
             catch (FileNotFoundException ex) {
                 System.out.println("sorry the wrong number");

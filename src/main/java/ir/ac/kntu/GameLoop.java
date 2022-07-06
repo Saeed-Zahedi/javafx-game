@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebHistory;
+import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,7 +38,7 @@ public class GameLoop {
     static ArrayList<Move>move=new ArrayList<>();
     static ArrayList<VirusToPane>virusToPane=new ArrayList<>();
     static Text text1=new Text();
-    public static Scene gameLoop(Player player,int level,Speed speed) throws FileNotFoundException {
+    public static Scene gameLoop(Player player, int level, Speed speed, Stage stage) throws FileNotFoundException {
         AllVirus.makeVirus(level*4);
         Pane pane=new Pane();
         FileInputStream fileInputStream=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\MainScene2.png");
@@ -45,6 +46,10 @@ public class GameLoop {
         ImageView imageView=new ImageView(image);
         imageView.setFitHeight(400);
         imageView.setFitWidth(400);
+        FileInputStream fileInputStreamGameOver=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\GameOver.png");
+        Image imageGameOver=new Image(fileInputStreamGameOver);
+        ImageView imageViewGameOver=new ImageView(imageGameOver);
+        pane.getChildren().add(imageViewGameOver);
         FileInputStream fileInputStream1=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\firstYvirus.PNG");
         FileInputStream fileInputStream2=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\secondYvirus.PNG");
         FileInputStream fileInputStream3=new FileInputStream("C:\\Users\\np\\IdeaProjects\\project4\\src\\main\\resources\\images\\ThirdYvirus.PNG");
@@ -212,16 +217,19 @@ public class GameLoop {
 
             }
             for (int j = 0; j < 50; j++) {
-                n=j;
-                //drAnimation.DoTheAnimation();
-                for (int i = 0; i < 23; i++) {
+                n = j;
+                    for (int i = 0; i < 23; i++) {
+                        if (!GameStatusUpDator.GameStatusCheckerForGameOver()) {
+                            try {
+                                Thread.sleep(20);
+                            } catch (InterruptedException t) {
 
-                    try {
-                        Thread.sleep(GameLoop.speedType(speed));
-                    } catch (InterruptedException t) {
-
-                    }
-                    Platform.runLater(move.get(j));
+                            }
+                            Platform.runLater(move.get(j));
+                        }else{
+                            new ChangeGamePlay(pane,imageViewGameOver).GameOver();
+                        }
+                                break;
                     }
                     GameLoop.updateTheImages();
                 }
